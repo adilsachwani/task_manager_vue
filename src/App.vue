@@ -12,6 +12,33 @@ export default {
   name: 'App',
   components: {
     Header
+  },
+  data() {
+    return {
+      tasks: []
+    }
+  },
+  created() {
+    this.tasks = [
+      {
+        id: 1,
+        text: 'Add OPD Recipits',
+        day: 'June 7th at 08:30pm',
+        reminder: true
+      },
+      {
+        id: 2,
+        text: 'Pay Fees in Bank Al Habib',
+        day: 'June 9th at 10:00am',
+        reminder: true
+      },
+      {
+        id: 3,
+        text: 'Learn Vue.js',
+        day: 'June 10th at 11:30am',
+        reminder: true
+      }
+    ]
   }
 }
 </script>
