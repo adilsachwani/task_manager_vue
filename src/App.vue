@@ -1,17 +1,20 @@
 <template>
   <div class="container">
     <Header title="Task Manager" />
+    <Tasks :tasks="tasks" />
   </div>
 </template>
 
 <script>
 
 import Header from './components/Header.vue'
+import Tasks from './components/Tasks.vue'
 
 export default {
   name: 'App',
   components: {
-    Header
+    Header,
+    Tasks
   },
   data() {
     return {
@@ -36,7 +39,7 @@ export default {
         id: 3,
         text: 'Learn Vue.js',
         day: 'June 10th at 11:30am',
-        reminder: true
+        reminder: false
       }
     ]
   }

@@ -10,8 +10,12 @@
 import Button from './Button.vue'
 
 export default {
-    name: "Header",
-    props: ['title'],
+    name: 'Header',
+    props: {
+        title: {
+            type: String
+        }
+    },
     components: {
         Button
     }
