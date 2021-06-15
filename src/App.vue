@@ -28,42 +28,73 @@ export default {
     }
   },
   methods: {
-    deleteTask(id){
-      this.tasks = this.tasks.filter((task) => task.id !== id);
+    
+    async deleteTask(id){
+
+      const res = await fetch(`api/tasks/${id}`, {
+        method: 'DELETE'
+      })
+
+      res.status === 200 ? 
+      (this.tasks = this.tasks.filter((task) => task.id !== id)) :
+      alert('Error deleting task.')
+
     },
-    toggleReminder(id){
+
+    async toggleReminder(id){
+      const taskToToggle = await this.fetchTask(id);
+      const updatedTask = {...taskToToggle, reminder: !taskToToggle.reminder};
+
+      const res = await fetch(`api/tasks/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(updatedTask)
+      })
+
+      const data = await res.json();
+
       this.tasks = this.tasks.map((task) => task.id === id 
-      ? {...task, reminder: !task.reminder} : task)
+      ? {...task, reminder: data.reminder} : task)
     },
-    toggleAddTask(){
+    
+    async toggleAddTask(){
       this.showAddTask = !this.showAddTask;
     },
-    addTask(task){
-      this.tasks = [...this.tasks, task]
+    
+    async addTask(task){
+      const res = await fetch('api/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(task)
+      })
+
+      const data = await res.json();
+
+      this.tasks = [...this.tasks, data]
+    },
+    
+    async fetchTasks(){
+      const res = await fetch('api/tasks');
+      const data = await res.json();
+      return data;
+    },
+
+    async fetchTask(id){
+      const res = await fetch(`api/tasks/${id}`);
+      const data = await res.json();
+      return data;
     }
+  
   },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: 'Add OPD Recipits',
-        day: 'June 7th at 08:30pm',
-        reminder: true
-      },
-      {
-        id: 2,
-        text: 'Pay Fees in Bank Al Habib',
-        day: 'June 9th at 10:00am',
-        reminder: true
-      },
-      {
-        id: 3,
-        text: 'Learn Vue.js',
-        day: 'June 10th at 11:30am',
-        reminder: false
-      }
-    ]
+ 
+ async created() {
+    this.tasks = await this.fetchTasks();
   }
+
 }
 </script>
 

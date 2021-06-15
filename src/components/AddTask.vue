@@ -43,7 +43,6 @@ export default {
             }
 
             const newTask = {
-                id: 1000,
                 text: this.text,
                 day: this.day,
                 reminder: this.reminder
